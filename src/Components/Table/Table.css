@@ -17,3 +17,7 @@
   .notes-month section {
     font-size: 28px;
   }
+  .cellEvent:hover{
+    background-color: rgb(209, 240, 255);
+    padding: 5px;
+  }

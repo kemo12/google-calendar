@@ -6,6 +6,10 @@ import "./Table.css";
 const Table= () => {
 
     const value = useContext(calendarContext);
+
+    const selectday=(day)=>{
+      value.setDate.setDate(day)
+    }
     
     function getListData(value) {
         let listData;
@@ -44,7 +48,7 @@ const Table= () => {
           <ul className="events">
             {listData.map(item => (
               <li key={item.content}>
-                <Badge status={item.type} text={item.content} />
+                <Badge status={item.type} text={item.content}  className="cellEvent"/>
               </li>
             ))}
           </ul>
@@ -69,7 +73,7 @@ const Table= () => {
       
     return (
         <div>
-            <Calendar value={value.Date.Date} dateCellRender={dateCellRender} monthCellRender={monthCellRender} />,
+            <Calendar value={value.Date.Date} onSelect={selectday} dateCellRender={dateCellRender} monthCellRender={monthCellRender} />,
         </div>
     )
 }
