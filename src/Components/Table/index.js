@@ -3,36 +3,11 @@ import { Calendar, Badge } from 'antd';
 import calendarContext from '../Context/Context';
 
 import "./Table.css";
-import moment from 'moment';
+import AddNoticeModal from '../AddNoticeModal';
 const Table= () => {
-
     // eslint-disable-next-line no-unused-vars
-    const [noticeList,setNoticeList]=useState(
-      [
-      {
-        date:moment(new Date() ),
-        notice:[
-          { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event。。....' },
-          { type: 'error', content: 'This is error event 1.' },
-
-         ]
-      },
-      {
-        date:moment(new Date() ).add(1,'month'),
-        notice:[
-          { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event。。....' },
-          { type: 'error', content: 'This is error event 1.' },
-          { type: 'error', content: 'This is error event 2.' },
-          { type: 'error', content: 'This is error event 3.' },
-          { type: 'error', content: 'This is error event 4.' },
-         ]
-      }
-    ]
-    ); 
+    const [noticeList,setNoticeList]=useState([]); 
     const value = useContext(calendarContext);
-
     const selectday=(day)=>{
       value.setDate.setDate(day)
     }
@@ -40,7 +15,6 @@ const Table= () => {
     
     const getListData=(value)=> {
         let listData;
-        console.log(noticeList)
         noticeList.map((day)=>{
          if(day.date.isSame(value,'year')&&day.date.isSame(value,'day')&&day.date.isSame(value, 'month')){
            listData=day.notice
@@ -50,26 +24,29 @@ const Table= () => {
 
       }
 
-      function dateCellRender(value) {
+      const  dateCellRender=(value)=>{
         const listData = getListData(value);
+        console.log({noticeList})
         return (
-          <ul className="events">
+          <ul className="events" >
             {listData.map(item => (
               <li key={item.content}>
-                <Badge status={item.type} text={item.content}  className="cellEvent"/>
+                <Badge status={item.color} text={item.content}  className="cellEvent"/>
               </li>
-            ))}
+
+            ))}          
+            <AddNoticeModal value={value} noticeList={noticeList} setNoticeList={setNoticeList }/> 
           </ul>
         );
       }
       
-      function getMonthData(value) {
+      const getMonthData=(value)=>{
         if (value.month() === 8) {
           return 1394;
         }
       }
       
-      function monthCellRender(value) {
+      const monthCellRender=(value)=> {
         const num = getMonthData(value);
         return num ? (
           <div className="notes-month">
@@ -81,7 +58,7 @@ const Table= () => {
       
     return (
         <div>
-            <Calendar value={value.Date.Date} onSelect={selectday} dateCellRender={dateCellRender} monthCellRender={monthCellRender} />,
+            <Calendar value={value.Date.Date} onSelect={selectday} dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
         </div>
     )
 }
