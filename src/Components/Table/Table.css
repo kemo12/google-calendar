@@ -24,3 +24,6 @@
   .add{
     color:#888888;
   }
+  .notice{
+    display: flex;
+  }
