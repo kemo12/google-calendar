@@ -7,12 +7,23 @@ import React, { useState } from 'react';
 const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsModalVisible}) => {
     const [title,setTitle]=useState("");
     const [color,setColor]=useState("yellow");
-
+  
       const handlModaleOk = () => {
+        
         setIsModalVisible(false);
         if(title!=""){
-
           let noticeListCopy=[...noticeList];
+          let exsistDayIndex=0;
+          let exsistDay=false;
+           noticeListCopy.map((day,key)=>{
+            if(day.date.isSame(value,'year')&&day.date.isSame(value,'day')&&day.date.isSame(value, 'month')){ 
+              exsistDay=true
+              exsistDayIndex=key;
+              return
+            }
+
+          })
+          if(!exsistDay){      
           let notice= {
             date:value,
             notice:[
@@ -21,7 +32,13 @@ const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsMo
           }
           noticeListCopy.push(notice);
           setNoticeList(noticeListCopy)
+        }else{
+          
+          let notice={ color: color, content: title };
+          noticeListCopy[exsistDayIndex].notice.push(notice)
         }
+      
+      } 
           setTitle("")
 
       };
@@ -48,7 +65,7 @@ const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsMo
             placeholder="select color"
             onChange={onSelectChange}
             preserve={false}
-            defaultValue='yellow'
+            value={color}
         >
           
             <Option value="yellow"><Badge status={"yellow"} className="cellEvent"/>yellow</Option>

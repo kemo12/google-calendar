@@ -3,12 +3,11 @@ import { Calendar, Badge } from 'antd';
 import calendarContext from '../Context/Context';
 import "./Table.css";
 import AddNoticeModal from '../AddNoticeModal';
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 const Table= () => {
-    // eslint-disable-next-line no-unused-vars
     const [noticeList,setNoticeList]=useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
- 
+    
     const value = useContext(calendarContext);
     const selectday=(day)=>{
             value.setDate.setDate(day)
@@ -19,34 +18,45 @@ const Table= () => {
       let listData=[];
       noticeList.map((day)=>{
          if(day.date.isSame(value,'year')&&day.date.isSame(value,'day')&&day.date.isSame(value, 'month')){
-           let m=day.notice;
-
-           listData.push(m)
+          listData=day.notice
+           
          }
 
-        })
-
+        }) 
            return  listData||[]; 
 
       }
+      const handleDeleteNotice=(e)=>{
 
+        let noticeListCopy=[...noticeList];
+        noticeListCopy.map((day)=>{
+            if(day.date.isSame(value.Date.Date,'year')&&day.date.isSame(value.Date.Date,'day')&&day.date.isSame(value.Date.Date, 'month')){
+           day.notice.map((notice,i)=>{
+           if(parseInt(e.target.id)===i){
+            day.notice.splice(i, 1)
+              setNoticeList(noticeListCopy) 
+           }
+          }) 
+          }
+
+      })
+    }
       const showModal = () => {
         setIsModalVisible(true);
       };
 
       const  dateCellRender=(value)=>{
         const listData = getListData(value);
-        console.log(listData)
         return (
           <ul className="events" >
-            {listData.map((item) => (
-              item.map((event,index)=>(
-              <li key={index} className="notice">
-                <Badge status={item[index].color} text={item[index].content}  className="cellEvent"/>
-                <CloseOutlined />
+            {listData.map((item,index) => (
+              
+              <li key={index} className="notice" >
+                <Badge status={item.color} text={item.content}  className="cellEvent"/>
+                <div  id={index} onMouseDown={()=>selectday(value)} onMouseUp={handleDeleteNotice} >x</div>
               </li>
-              )
-            )))}
+              
+            ))}
               <li  className="add cellEvent" onClick={showModal}>
               <PlusOutlined/>ADD 
               </li>          
@@ -55,19 +65,36 @@ const Table= () => {
       }
       
       const getMonthData=(value)=>{
-        if (value.month() === 8) {
-          return 1394;
-        }
+        
+        let listData=[];
+        noticeList.map((day)=>{
+           if(day.date.isSame(value,'year')&&day.date.isSame(value, 'month')){
+             day.notice.map((note)=>{
+
+               listData.push(note)
+             })
+             
+           }
+           console.log(listData)
+  
+          }) 
+             return  listData||[]; 
+        
       }
       
       const monthCellRender=(value)=> {
-        const num = getMonthData(value);
-        return num ? (
-          <div className="notes-month">
-            <section>{num}</section>
-            <span>Backlog number</span>
-          </div>
-        ) : null;
+        const listData = getMonthData(value);
+        return (
+          <ul className="events" >
+            {listData.map((item,index) => (
+              
+              <li key={index} className="notice" >
+                <Badge status={item.color} text={item.content}  className="cellEvent"/>
+              </li>
+              
+            ))}         
+          </ul>
+        );
       }
       
     return (
