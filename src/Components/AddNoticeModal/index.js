@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Badge, Input, Select } from 'antd';
 import { Option } from 'antd/lib/mentions';
 import Modal from 'antd/lib/modal/Modal';
@@ -40,6 +39,7 @@ const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsMo
       
       } 
           setTitle("")
+          
 
       };
       
@@ -58,13 +58,18 @@ const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsMo
     return (
         <>
         <Modal  title="Add Notice" visible={isModalVisible} onOk={handlModaleOk} onCancel={handleModalCancel}>
-        <Input placeholder="Title" value={title}onChange={(e)=>setTitle(e.target.value)} />
+          <div >
+        <label>Title     </label>
+        <Input style={{width:'400px',marginLeft:"8px"}} placeholder="Title" value={title}onChange={(e)=>setTitle(e.target.value)} />
+          </div>
+        <label>Color      </label>
         <Select
             
             style={{ width: 200 }}
             placeholder="select color"
             onChange={onSelectChange}
             preserve={false}
+            defaultValue="yellow"
             value={color}
         >
           

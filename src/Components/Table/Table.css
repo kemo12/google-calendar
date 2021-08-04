@@ -27,3 +27,23 @@
   .notice{
     display: flex;
   }
+
+  .delete{
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    color:#888888;
+  }
+  .badge{
+    width: 20px;
+  }
+  .noteContainer{
+    display: flex;
+  }
+  .badgeP{
+    width: 120px;
+    word-wrap: break-word;
+  }
+
+  
+
