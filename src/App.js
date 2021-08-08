@@ -10,18 +10,21 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   const [Date,setDate]=useState(moment());
+  const [noticeList,setNoticeList]=useState([]);
 
   return (
     <ThingsProvider 
     value={{
       Date:{Date},
-      setDate:{setDate}
+      setDate:{setDate},
+      noticeList:{noticeList},
+      setNoticeList:{setNoticeList}
     }}>
       <DndProvider backend={HTML5Backend}> 
 
     <div className="App">
      <NavBar/>
-     <Table/>
+     <Table />
     </div>
     </DndProvider>
     </ThingsProvider>

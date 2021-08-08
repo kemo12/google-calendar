@@ -30,9 +30,14 @@
 
   .delete{
     width: 20px;
-    height: 20px;
+    height: 30px;
     text-align: center;
     color:#888888;
+    cursor:auto
+  }
+  .delete:hover{
+    font-size: 20px;
+    margin-top: -5px;
   }
   .badge{
     width: 20px;

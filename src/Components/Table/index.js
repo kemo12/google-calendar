@@ -5,18 +5,16 @@ import "./Table.css";
 import AddNoticeModal from '../AddNoticeModal';
 import NoticeList from './NoticeList';
 const Table= () => {
-    const [noticeList,setNoticeList]=useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    //const [selectedNoteId,setSelectedNoteId]=useState();
   
 
-    const value = useContext(calendarContext);
+    const Value = useContext(calendarContext);
     const selectday=(day)=>{
-            value.setDate.setDate(day)
+            Value.setDate.setDate(day)
     }
     const getListData=(value)=> {
       let listData=[];
-      noticeList.map((day)=>{
+      Value.noticeList.noticeList.map((day)=>{
          if(day.date.isSame(value,'year')&&day.date.isSame(value,'day')&&day.date.isSame(value, 'month')){
           listData=day.notice     
          }
@@ -34,7 +32,7 @@ const Table= () => {
       const  dateCellRender=(value)=>{
         const listData = getListData(value);
         return (
-            <NoticeList setNoticeList={setNoticeList} noticeList={noticeList}Value={value} selectday={selectday} showAddModal={showAddModal} listData={listData} />
+            <NoticeList setNoticeList={Value.setNoticeList.setNoticeList} noticeList={Value.noticeList.noticeList} Value={value} selectday={selectday} showAddModal={showAddModal} listData={listData} />
          
         );
       }
@@ -42,7 +40,7 @@ const Table= () => {
       const getMonthData=(value)=>{
         
         let listData=[];
-        noticeList.map((day)=>{
+        Value.noticeList.noticeList.map((day)=>{
            if(day.date.isSame(value,'year')&&day.date.isSame(value, 'month')){
              day.notice.map((note)=>{
 
@@ -74,8 +72,8 @@ const Table= () => {
       
     return (
         <div>
-            <Calendar value={value.Date.Date} onSelect={selectday} dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
-            <AddNoticeModal value={value.Date.Date} noticeList={noticeList} isModalVisible={isModalVisible} setNoticeList={setNoticeList} setIsModalVisible={setIsModalVisible} />  
+            <Calendar value={Value.Date.Date} onSelect={selectday} dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+            <AddNoticeModal value={Value.Date.Date} noticeList={Value.noticeList.noticeList} isModalVisible={isModalVisible} setNoticeList={Value.setNoticeList.setNoticeList} setIsModalVisible={setIsModalVisible} />  
         </div>
     )
 }
