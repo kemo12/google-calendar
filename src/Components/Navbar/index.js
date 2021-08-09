@@ -5,7 +5,7 @@ import {LeftOutlined,RightOutlined} from "@ant-design/icons";
 import calendarContext from '../Context/Context';
 import "./Navbar.css";
 import AllTasks from '../AllTasks/AllTasks';
-
+import { Link } from 'react-router-dom';
 const NavBar =()=> {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -33,7 +33,7 @@ const NavBar =()=> {
                 <RightOutlined className="icon" onClick={nextMonth}/>
             </div>
             <Button onClick={setToday}>Today</Button>
-            <Button  onClick={showModal} >All Notices</Button>
+            <Link to="all-tasks"><Button  onClick={showModal} >All Notices</Button></Link>
             <AllTasks setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible}  noticeList={value.noticeList.noticeList} />
 
         </div>

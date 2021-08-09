@@ -2,6 +2,7 @@
 import {  Table } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React from 'react';
+import history from '../react-router/history';
 
 const AllTasks = ({isModalVisible,setIsModalVisible,noticeList}) => {
 
@@ -10,6 +11,7 @@ const AllTasks = ({isModalVisible,setIsModalVisible,noticeList}) => {
     };
     const handleCancel = () => {
         setIsModalVisible(false);
+        history.push('/');
     };
 
     const columns = [
@@ -27,7 +29,7 @@ const AllTasks = ({isModalVisible,setIsModalVisible,noticeList}) => {
 
     const getData=(noticeList)=>{
         let note=[];
-        noticeList.map((day)=>{
+        noticeList?.map((day)=>{
             let key=1;
             day.notice.map((dayNotices)=>{
                 let noticeData={key:key,Notice:dayNotices.content,Date:day.date.format("DD-MM-YYYY")};
@@ -40,15 +42,11 @@ const AllTasks = ({isModalVisible,setIsModalVisible,noticeList}) => {
     };
 
     const data = getData(noticeList);
-   
-
-    
-    
     
 
     return (
         <>
-            <Modal title="All Notices" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="All Notices" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
                 <Table columns={columns} dataSource={data}  pagination={{ pageSize: 4 }} />
             </Modal>
         </>

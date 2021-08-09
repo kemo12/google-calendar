@@ -15,7 +15,7 @@ const Table= () => {
     const getListData=(value)=> {
         let listData=[];
         Value.noticeList.noticeList.map((day)=>{
-            if(day.date.isSame(value,'year')&&day.date.isSame(value,'day')&&day.date.isSame(value, 'month')){
+            if(day.date.isSame(value,'day')){
                 listData=day.notice;     
             }
         }); 
@@ -41,7 +41,7 @@ const Table= () => {
         
         let listData=[];
         Value.noticeList.noticeList.map((day)=>{
-            if(day.date.isSame(value,'year')&&day.date.isSame(value, 'month')){
+            if(day.date.isSame(value, 'month')){
                 day.notice.map((note)=>{
 
                     listData.push(note);
