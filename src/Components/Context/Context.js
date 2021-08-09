@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 const calendarContext = React.createContext();
 export const ThingsProvider = calendarContext.Provider;
 

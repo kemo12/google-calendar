@@ -7,80 +7,80 @@ const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsMo
     const [title,setTitle]=useState("");
     const [color,setColor]=useState("yellow");
   
-      const handlModaleOk = () => {
+    const handlModaleOk = () => {
         
         setIsModalVisible(false);
         if(title!=""){
-          let noticeListCopy=[...noticeList];
-          let exsistDayIndex=0;
-          let exsistDay=false;
-           noticeListCopy.map((day,key)=>{
-            if(day.date.isSame(value,'year')&&day.date.isSame(value,'day')&&day.date.isSame(value, 'month')){ 
-              exsistDay=true
-              exsistDayIndex=key;
-              return
+            let noticeListCopy=[...noticeList];
+            let exsistDayIndex=0;
+            let exsistDay=false;
+            noticeListCopy.map((day,key)=>{
+                if(day.date.isSame(value,'day')){ 
+                    exsistDay=true;
+                    exsistDayIndex=key;
+                    return;
+                }
+
+            });
+            if(!exsistDay){      
+                let notice= {
+                    date:value,
+                    notice:[
+                        { color: color, content: title }
+                    ]
+                };
+                noticeListCopy.push(notice);
+                setNoticeList(noticeListCopy);
+            }else{
+          
+                let notice={ color: color, content: title };
+                noticeListCopy[exsistDayIndex].notice.push(notice);
             }
-
-          })
-          if(!exsistDay){      
-          let notice= {
-            date:value,
-            notice:[
-              { color: color, content: title }
-            ]
-          }
-          noticeListCopy.push(notice);
-          setNoticeList(noticeListCopy)
-        }else{
-          
-          let notice={ color: color, content: title };
-          noticeListCopy[exsistDayIndex].notice.push(notice)
-        }
       
-      } 
-          setTitle("")
+        } 
+        setTitle("");
           
 
-      };
+    };
       
 
-      const handleModalCancel = () => {
+    const handleModalCancel = () => {
         setIsModalVisible(false);
-        setTitle("")
-        setColor("")
+        setTitle("");
+        setColor("");
         
-      };
+    };
       
-      function onSelectChange(value) {
-          setColor(value)
-      }
+    function onSelectChange(value) {
+        setColor(value);
+    }
 
     return (
         <>
-        <Modal  title="Add Notice" visible={isModalVisible} onOk={handlModaleOk} onCancel={handleModalCancel}>
-          <div >
-        <label>Title     </label>
-        <Input style={{width:'400px',marginLeft:"8px"}} placeholder="Title" value={title}onChange={(e)=>setTitle(e.target.value)} />
-          </div>
-        <label>Color      </label>
-        <Select
+            <Modal  title="Add Notice" visible={isModalVisible} onOk={handlModaleOk} onCancel={handleModalCancel}>
+                <div >
+                    <label>Title     </label>
+                    <Input style={{width:'400px',marginLeft:"8px"}} placeholder="Title" value={title}onChange={(e)=>setTitle(e.target.value)} />
+                </div>
+                <label>Color      </label>
+                <Select
             
-            style={{ width: 200 }}
-            placeholder="select color"
-            onChange={onSelectChange}
-            preserve={false}
-            defaultValue="yellow"
-            value={color}
-        >
+                    style={{ width: 200 }}
+                    placeholder="select color"
+                    onChange={onSelectChange}
+                    preserve={false}
+                    defaultValue="yellow"
+                    value={color}
+                >
           
-            <Option value="yellow"><Badge status={"yellow"} className="cellEvent"/>yellow</Option>
-            <Option value="green"><Badge status={"green"} className="cellEvent"/>green</Option>
-            <Option value="red"><Badge status={"red"} className="cellEvent"/>red</Option>
-        </Select>
+                    <Option value="yellow"><Badge status={"yellow"} className="cellEvent"/>yellow</Option>
+                    <Option value="green"><Badge status={"green"} className="cellEvent"/>green</Option>
+                    <Option value="red"><Badge status={"red"} className="cellEvent"/>red</Option>
+                </Select>
 
-        </Modal>
-      </>
-    )
-}
+            </Modal>
+        </>
+    );
+};
 
-export default AddNoticeModal
+export default AddNoticeModal;
