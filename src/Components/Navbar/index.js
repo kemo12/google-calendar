@@ -4,22 +4,22 @@ import {Button} from 'antd';
 import {LeftOutlined,RightOutlined} from "@ant-design/icons";
 import calendarContext from '../Context/Context';
 import "./Navbar.css";
-import AllTasks from '../AllTasks/AllTasks';
+import AllTasksModal from '../AllTasks/AllTasks';
 import { Link } from 'react-router-dom';
 const NavBar =()=> {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const value = useContext(calendarContext);
+    const contextData = useContext(calendarContext);
     const setToday=()=>{
-        value.setDate.setDate(moment());
+        contextData.setDate.setDate(moment());
     };
     const nextMonth=()=>{
-        value.setDate.setDate(value.Date.Date.clone().add(1, 'months'));
+        contextData.setDate.setDate(contextData.Date.Date.clone().add(1, 'months'));
         
     };
 
     const prevMonth=()=>{
-        value.setDate.setDate(value.Date.Date.clone().subtract(1, 'months'));
+        contextData.setDate.setDate(contextData.Date.Date.clone().subtract(1, 'months'));
         
     };
     const showModal = () => {
@@ -34,7 +34,7 @@ const NavBar =()=> {
             </div>
             <Button onClick={setToday}>Today</Button>
             <Link to="all-tasks"><Button  onClick={showModal} >All Notices</Button></Link>
-            <AllTasks setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible}  noticeList={value.noticeList.noticeList} />
+            <AllTasksModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible}  />
 
         </div>
     );

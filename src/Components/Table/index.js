@@ -5,16 +5,18 @@ import "./Table.css";
 import AddNoticeModal from '../AddNoticeModal';
 import NoticeList from './NoticeList';
 const Table= () => {
+    //State
     const [isModalVisible, setIsModalVisible] = useState(false);
-  
 
-    const Value = useContext(calendarContext);
+    //contextConsumer
+    const contextData = useContext(calendarContext);
+
     const selectday=(day)=>{
-        Value.setDate.setDate(day);
+        contextData.setDate.setDate(day);
     };
     const getListData=(value)=> {
         let listData=[];
-        Value.noticeList.noticeList.map((day)=>{
+        contextData.noticeList.noticeList.forEach((day)=>{
             if(day.date.isSame(value,'day')){
                 listData=day.notice;     
             }
@@ -27,12 +29,15 @@ const Table= () => {
 
     };
 
-      
-
     const  dateCellRender=(value)=>{
         const listData = getListData(value);
         return (
-            <NoticeList setNoticeList={Value.setNoticeList.setNoticeList} noticeList={Value.noticeList.noticeList} Value={value} selectday={selectday} showAddModal={showAddModal} listData={listData} />
+            <NoticeList  
+                dayCellDate={value} 
+                dayCellNotices={listData} 
+                selectdayOnClick={selectday} 
+                showAddNoticeModal={showAddModal} 
+            />
          
         );
     };
@@ -40,16 +45,12 @@ const Table= () => {
     const getMonthData=(value)=>{
         
         let listData=[];
-        Value.noticeList.noticeList.map((day)=>{
+        contextData.noticeList.noticeList.forEach((day)=>{
             if(day.date.isSame(value, 'month')){
-                day.notice.map((note)=>{
-
+                day.notice.forEach((note)=>{
                     listData.push(note);
                 });
-             
             }
-            console.log(listData);
-  
         }); 
         return  listData||[]; 
         
@@ -62,7 +63,11 @@ const Table= () => {
                 {listData.map((item,index) => (
               
                     <li key={index} className="notice" >
-                        <Badge status={item.color} text={item.content}  className="cellEvent"/>
+                        <Badge
+                            status={item.color} 
+                            text={item.content}  
+                            className="cellEvent"
+                        />
                     </li>
               
                 ))}         
@@ -72,8 +77,17 @@ const Table= () => {
       
     return (
         <div>
-            <Calendar value={Value.Date.Date} onSelect={selectday} dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
-            <AddNoticeModal value={Value.Date.Date} noticeList={Value.noticeList.noticeList} isModalVisible={isModalVisible} setNoticeList={Value.setNoticeList.setNoticeList} setIsModalVisible={setIsModalVisible} />  
+            <Calendar 
+                value={contextData.Date.Date} 
+                onSelect={selectday} 
+                dateCellRender={dateCellRender} 
+                monthCellRender={monthCellRender} 
+            />
+            <AddNoticeModal 
+                noticeDayDate={contextData.Date.Date}
+                isModalVisible={isModalVisible} 
+                setIsModalVisible={setIsModalVisible} 
+            />  
         </div>
     );
 };

@@ -4,10 +4,14 @@ import { useDrag } from 'react-dnd';
 import calendarContext from '../Context/Context';
 import { ItemTypes } from './DragType';
 
-const Notice = ({noticeList,setNoticeList,item,index,selectday,Value}) => {
+const Notice = ({noteData,NoticeKey,selectdayOnClick,dayCellDate}) => {
 
-    const value = useContext(calendarContext);
-    const draggedDetails={date:Value,index:index,content:item};
+    const contextData = useContext(calendarContext);
+    const draggedDetails={
+        date:dayCellDate,
+        index:NoticeKey,
+        content:noteData
+    };
     const [isUpdate,setIsUpdate]=useState(false);
     
     const [{ isDragging },drag] = useDrag(() => ({
@@ -21,13 +25,13 @@ const Notice = ({noticeList,setNoticeList,item,index,selectday,Value}) => {
     }));
     const handleDeleteNotice=(e)=>{
 
-        let noticeListCopy=[...noticeList];
-        noticeListCopy.map((day)=>{
-            if(day.date.isSame(value.Date.Date,'year')&&day.date.isSame(value.Date.Date,'day')&&day.date.isSame(value.Date.Date, 'month')){
-                day.notice.map((notice,i)=>{
+        let noticeListCopy=[...contextData.noticeList.noticeList];
+        noticeListCopy.forEach((day)=>{
+            if(day.date.isSame(contextData.Date.Date,'day')){
+                day.notice.forEach((notice,i)=>{
                     if(parseInt(e.target.id)===i){
                         day.notice.splice(i, 1);
-                        setNoticeList(noticeListCopy); 
+                        contextData.setNoticeList.setNoticeList(noticeListCopy); 
                     }
                 }); 
             }
@@ -35,14 +39,13 @@ const Notice = ({noticeList,setNoticeList,item,index,selectday,Value}) => {
         });
     };
     const handleUpdateNotice=(e)=>{
-        let noticeListCopy=[...noticeList];
-        noticeListCopy.map((day)=>{
-            if(day.date.isSame(value.Date.Date,'year')&&day.date.isSame(value.Date.Date,'day')&&day.date.isSame(value.Date.Date, 'month')){
-                day.notice.map((notice,i)=>{
-                    if(parseInt(index)===i){
-                        console.log(e.target.value);
+        let noticeListCopy=[...contextData.noticeList.noticeList];
+        noticeListCopy.forEach((day)=>{
+            if(day.date.isSame(contextData.Date.Date,'day')){
+                day.notice.forEach((notice,i)=>{
+                    if(parseInt(NoticeKey)===i){
                         notice.content=e.target.value;
-                        setNoticeList(noticeListCopy);
+                        contextData.setNoticeList.setNoticeList(noticeListCopy);
                         setIsUpdate(false);
                     }
                 }); 
@@ -53,23 +56,39 @@ const Notice = ({noticeList,setNoticeList,item,index,selectday,Value}) => {
     };
     return (
         <div>
-            { <li  
-                ref={drag}
-                style={{opacity: isDragging ? 0.5 : 1,cursor: 'move'}}
-                key={index}  className=" noticeLi notice cellEvent"  
-            >
-                <div className="noteContainer"  >
-                    <div >
-                        <Badge status={item.color} id={index} /> 
+            { 
+                <li  
+                    ref={drag}
+                    style={{opacity: isDragging ? 0.5 : 1,cursor: 'move'}}
+                    key={NoticeKey}  className=" noticeLi notice cellEvent"  
+                >
+                    <div className="noteContainer"  >
+                        <div >
+                            <Badge status={noteData.color} id={NoticeKey} /> 
+                        </div>
+                        {isUpdate?
+                            <Input 
+                                defaultValue={noteData.content}
+                                autoFocus  
+                                onPressEnter={handleUpdateNotice} 
+                                onBlur={handleUpdateNotice}
+                            />
+                            :
+                            <p 
+                                onDoubleClick={()=>setIsUpdate(true)} 
+                                id={NoticeKey} 
+                                className="badgeP"
+                            >{noteData.content}</p>
+                        }
                     </div>
-                    {isUpdate?
-                        <Input defaultValue={item.content} autoFocus  onPressEnter={handleUpdateNotice} onBlur={handleUpdateNotice}/>
-                        :
-                        <p onDoubleClick={()=>setIsUpdate(true)} id={index}  className="badgeP">{item.content}</p>
-                    }
-                </div>
-                <div className={"delete"}  id={index} onMouseDown={()=>selectday(Value)} onMouseUp={handleDeleteNotice} >x</div>
-            </li>  }
+                    <div 
+                        className={"delete"}  
+                        id={NoticeKey} 
+                        onMouseDown={()=>selectdayOnClick(dayCellDate)} 
+                        onMouseUp={handleDeleteNotice} 
+                    >x</div>
+                </li>  
+            }
         </div>
     );
 };

@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router  } from 'react-router-dom/cjs/react-router-dom.min';
+import history from './Components/react-router/history';
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <Router history={history}>
+            <App />
+        </Router>
     </React.StrictMode>,
     document.getElementById('root')
 );

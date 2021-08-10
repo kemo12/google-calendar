@@ -8,35 +8,32 @@ import moment from "moment";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Switch } from "react-router-dom";
-import { Route, BrowserRouter as Router } from "react-router-dom/cjs/react-router-dom.min";
+import { Route} from "react-router-dom/cjs/react-router-dom.min";
 import AllTasks from "./Components/AllTasks/AllTasks";
-import history from "./Components/react-router/history";
 function App() {
     const [Date,setDate]=useState(moment());
     const [noticeList,setNoticeList]=useState([]);
 
     return (
-        <Router history={history}>
-            <ThingsProvider 
-                value={{
-                    Date:{Date},
-                    setDate:{setDate},
-                    noticeList:{noticeList},
-                    setNoticeList:{setNoticeList}
-                }}>
-                <DndProvider backend={HTML5Backend}> 
+        <ThingsProvider 
+            value={{
+                Date:{Date},
+                setDate:{setDate},
+                noticeList:{noticeList},
+                setNoticeList:{setNoticeList}
+            }}>
+            <DndProvider backend={HTML5Backend}> 
 
-                    <div className="App">
-                        <NavBar/>
-                        <Table/>
-                    </div>
-                    <Switch>
-                        <Route path="/" exact component={Table} />
-                        <Route path="/all-tasks" exact  component={AllTasks} />
-                    </Switch>
-                </DndProvider>
-            </ThingsProvider>
-        </Router>
+                <div className="App">
+                    <NavBar/>
+                    <Table/>
+                </div>
+                <Switch>
+                    <Route path="/" exact component={Table} />
+                    <Route path="/all-tasks" exact  component={AllTasks} />
+                </Switch>
+            </DndProvider>
+        </ThingsProvider>
     );
 }
 

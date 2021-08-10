@@ -1,13 +1,18 @@
 /* eslint-disable no-undef */
 import {  Table } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
-import React from 'react';
+import React,{useContext} from 'react';
+import calendarContext from '../Context/Context';
 import history from '../react-router/history';
 
-const AllTasks = ({isModalVisible,setIsModalVisible,noticeList}) => {
+const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
+
+    const contextData = useContext(calendarContext);
 
     const handleOk = () => {
         setIsModalVisible(false);
+        history.push('/');
+
     };
     const handleCancel = () => {
         setIsModalVisible(false);
@@ -29,10 +34,14 @@ const AllTasks = ({isModalVisible,setIsModalVisible,noticeList}) => {
 
     const getData=(noticeList)=>{
         let note=[];
-        noticeList?.map((day)=>{
+        noticeList?.forEach((day)=>{
             let key=1;
-            day.notice.map((dayNotices)=>{
-                let noticeData={key:key,Notice:dayNotices.content,Date:day.date.format("DD-MM-YYYY")};
+            day.notice.forEach((dayNotices)=>{
+                let noticeData={
+                    key:key,
+                    Notice:dayNotices.content,
+                    Date:day.date.format("DD-MM-YYYY")
+                };
                 note.push(noticeData);
                 key++;
             });
@@ -41,16 +50,26 @@ const AllTasks = ({isModalVisible,setIsModalVisible,noticeList}) => {
         return note;
     };
 
-    const data = getData(noticeList);
+    const data = getData(contextData.noticeList.noticeList);
     
 
     return (
         <>
-            <Modal title="All Notices" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose={true}>
-                <Table columns={columns} dataSource={data}  pagination={{ pageSize: 4 }} />
+            <Modal 
+                title="All Notices" 
+                visible={isModalVisible}
+                onOk={handleOk} 
+                onCancel={handleCancel}
+                destroyOnClose={true}
+            >
+                <Table 
+                    columns={columns}
+                    dataSource={data}  
+                    pagination={{ pageSize: 4 }}
+                />
             </Modal>
         </>
     );
 };
 
-export default AllTasks;
+export default AllTasksModal;

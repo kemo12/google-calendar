@@ -1,21 +1,24 @@
 import { Badge, Input, Select } from 'antd';
 import { Option } from 'antd/lib/mentions';
 import Modal from 'antd/lib/modal/Modal';
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
+import calendarContext from '../Context/Context';
 
-const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsModalVisible}) => {
+const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
     const [title,setTitle]=useState("");
     const [color,setColor]=useState("yellow");
+    const contextData = useContext(calendarContext);
+
   
     const handlModaleOk = () => {
         
         setIsModalVisible(false);
         if(title!=""){
-            let noticeListCopy=[...noticeList];
+            let noticeListCopy=[...contextData.noticeList.noticeList];
             let exsistDayIndex=0;
             let exsistDay=false;
-            noticeListCopy.map((day,key)=>{
-                if(day.date.isSame(value,'day')){ 
+            noticeListCopy.forEach((day,key)=>{
+                if(day.date.isSame(noticeDayDate,'day')){ 
                     exsistDay=true;
                     exsistDayIndex=key;
                     return;
@@ -24,13 +27,13 @@ const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsMo
             });
             if(!exsistDay){      
                 let notice= {
-                    date:value,
+                    date:noticeDayDate,
                     notice:[
                         { color: color, content: title }
                     ]
                 };
                 noticeListCopy.push(notice);
-                setNoticeList(noticeListCopy);
+                contextData.setNoticeList.setNoticeList(noticeListCopy);
             }else{
           
                 let notice={ color: color, content: title };
@@ -39,15 +42,12 @@ const AddNoticeModal = ({value ,noticeList ,setNoticeList,isModalVisible,setIsMo
       
         } 
         setTitle("");
-          
-
     };
       
 
     const handleModalCancel = () => {
         setIsModalVisible(false);
         setTitle("");
-        setColor("");
         
     };
       

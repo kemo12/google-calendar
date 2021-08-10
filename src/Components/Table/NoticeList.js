@@ -1,10 +1,12 @@
 import { PlusOutlined } from '@ant-design/icons';
-import React from 'react';
+import React,{useContext} from 'react';
 import { useDrop } from 'react-dnd';
+import calendarContext from '../Context/Context';
 import { ItemTypes } from './DragType';
 import Notice from './Notice';
 
-const NoticeList = ({showAddModal,listData,noticeList,setNoticeList,selectday,Value}) => {
+const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellDate}) => {
+    const contextData = useContext(calendarContext);
 
     const [{isOver},drop]=useDrop({
         accept: ItemTypes.notice,
@@ -14,13 +16,14 @@ const NoticeList = ({showAddModal,listData,noticeList,setNoticeList,selectday,Va
             isOver:!!monitor.isOver(),
         })
     });
+    
     const moveNotice=(item)=>{
-        let noticeListCopy=[...noticeList];
+        let noticeListCopy=[...contextData.noticeList.noticeList];
         let exsistDayIndex=0;
         let exsistDay=false;
 
-        noticeListCopy.map((day,key)=>{
-            if(day.date.isSame(Value,'day')){ 
+        noticeListCopy.forEach((day,key)=>{
+            if(day.date.isSame(dayCellDate,'day')){ 
                 exsistDay=true;
                 exsistDayIndex=key;
                 return;
@@ -28,7 +31,7 @@ const NoticeList = ({showAddModal,listData,noticeList,setNoticeList,selectday,Va
         });
         if(!exsistDay){    
             let notice= {
-                date:Value,
+                date:dayCellDate,
                 notice:[
                     { color: item.content.color, content: item.content.content }
                 ]
@@ -41,12 +44,12 @@ const NoticeList = ({showAddModal,listData,noticeList,setNoticeList,selectday,Va
         }
 
         //delete the notice from the last position
-        noticeListCopy.map((day)=>{
-            if(day.date.isSame(item.date,'year')&&day.date.isSame(item.date,'day')&&day.date.isSame(item.date, 'month')){
-                day.notice.map((notice,i)=>{
+        noticeListCopy.forEach((day)=>{
+            if(day.date.isSame(item.date,'day')){
+                day.notice.forEach((notice,i)=>{
                     if(item.index===i){
                         day.notice.splice(i, 1);
-                        setNoticeList(noticeListCopy); 
+                        contextData.setNoticeList.setNoticeList(noticeListCopy); 
                     }
                 }); 
             }
@@ -57,15 +60,25 @@ const NoticeList = ({showAddModal,listData,noticeList,setNoticeList,selectday,Va
 
     return (
         <div>
-            <ul className="events" key={Value}  ref={drop} style={isOver? ({ backgroundColor:"#bbe5f7"}) : ({})}>
-                {listData.map((item,index) => {
+            <ul 
+                className="events" 
+                key={dayCellDate}  
+                ref={drop} 
+                style={isOver? ({ backgroundColor:"#bbe5f7"}) : ({})}
+            >
+                {dayCellNotices?.map((note,index) => {
                     return(
                         <div key={index} >
-                            <Notice  noticeList={noticeList} selectday={selectday} key={{index}} item={item} index={index} Value={Value} setNoticeList={setNoticeList} /> 
+                            <Notice  
+                                selectdayOnClick={selectdayOnClick}
+                                noteData={note} 
+                                NoticeKey={index} 
+                                dayCellDate={dayCellDate} 
+                            /> 
                         </div>
                     );
                 })}
-                <li className="add cellEvent" onClick={showAddModal} >
+                <li className="add cellEvent" onClick={showAddNoticeModal} >
                     <PlusOutlined/>ADD 
                 </li>          
             </ul> 
