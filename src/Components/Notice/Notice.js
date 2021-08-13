@@ -2,7 +2,7 @@ import { Badge, Input } from 'antd';
 import React, { useContext,useState } from 'react';
 import { useDrag } from 'react-dnd';
 import calendarContext from '../Context/Context';
-import { ItemTypes } from './DragType';
+import { ItemTypes } from '../Table/DragType';
 
 const Notice = ({noteData,NoticeKey,selectdayOnClick,dayCellDate}) => {
 

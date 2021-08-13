@@ -3,7 +3,7 @@ import { Calendar, Badge } from 'antd';
 import calendarContext from '../Context/Context';
 import "./Table.css";
 import AddNoticeModal from '../AddNoticeModal';
-import NoticeList from './NoticeList';
+import NoticeList from '../NoticeList/NoticeList';
 const Table= () => {
     //State
     const [isModalVisible, setIsModalVisible] = useState(false);

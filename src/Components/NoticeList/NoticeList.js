@@ -2,8 +2,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import React,{useContext} from 'react';
 import { useDrop } from 'react-dnd';
 import calendarContext from '../Context/Context';
-import { ItemTypes } from './DragType';
-import Notice from './Notice';
+import { ItemTypes } from '../Table/DragType';
+import Notice from '../Notice/Notice';
 
 const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellDate}) => {
     const contextData = useContext(calendarContext);
