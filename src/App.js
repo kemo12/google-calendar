@@ -13,6 +13,7 @@ import AllTasks from "./Components/AllTasks/AllTasks";
 function App() {
     const [Date,setDate]=useState(moment());
     const [noticeList,setNoticeList]=useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(true);
 
     return (
         <ThingsProvider 
@@ -29,8 +30,9 @@ function App() {
                     <Table/>
                 </div>
                 <Switch>
-                    <Route path="/" exact component={Table} />
-                    <Route path="/all-tasks" exact  component={AllTasks} />
+                    <Route path="/all-tasks"  exact>
+                        <AllTasks setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible}/>
+                    </Route>
                 </Switch>
             </DndProvider>
         </ThingsProvider>

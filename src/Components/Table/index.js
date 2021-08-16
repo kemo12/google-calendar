@@ -1,4 +1,4 @@
-import React,{useContext,useState} from 'react';
+import React,{useContext,useMemo,useState} from 'react';
 import { Calendar, Badge } from 'antd';
 import calendarContext from '../Context/Context';
 import "./Table.css";
@@ -30,7 +30,8 @@ const Table= () => {
     };
 
     const  dateCellRender=(value)=>{
-        const listData = getListData(value);
+        const listData = useMemo(() => getListData(value), [contextData.noticeList.noticeList]);
+        
         return (
             <NoticeList  
                 dayCellDate={value} 
