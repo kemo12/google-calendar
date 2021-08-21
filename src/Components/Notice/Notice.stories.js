@@ -23,18 +23,6 @@ export default {
             defaultValue: "",
             description: 'It is a function through which the history is modified',
         },
-        noticeList:{
-            name: 'noticeList',
-            type: { name: 'array', required: true },
-            defaultValue: {},
-            description: 'It is an array in which notes are stored',
-        },
-        setNoticeList:{
-            name: 'setNoticeList',
-            type: { name: 'function', required: true },
-            defaultValue: {},
-            description: 'It is an array through which to modify the stored array of notes',
-        },
         noteData:{
             name: 'noteData',
             type: { name: 'noteData', required: true },

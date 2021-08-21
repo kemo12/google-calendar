@@ -31,7 +31,7 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
                 console.log(res.data.noticeList);
             });
     };
-    const moveNotice=(item)=>{
+    const moveNotice= async(item)=>{
         let noticeListCopy=[...contextData.noticeList.noticeList];
         let exsistDayIndex=0;
         let exsistDay=false;
@@ -69,7 +69,7 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
             }
 
         });
-        updateApiData(noticeListCopy);
+        await updateApiData(noticeListCopy);
 
     };
 
