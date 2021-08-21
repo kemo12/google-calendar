@@ -4,6 +4,7 @@ import calendarContext from '../Context/Context';
 import "./Table.css";
 import AddNoticeModal from '../AddNoticeModal';
 import NoticeList from '../NoticeList/NoticeList';
+import moment from 'moment';
 const Table= () => {
     //State
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -16,8 +17,8 @@ const Table= () => {
     };
     const getListData=(value)=> {
         let listData=[];
-        contextData.noticeList.noticeList.forEach((day)=>{
-            if(day.date.isSame(value,'day')){
+        contextData.noticeList.noticeList?.forEach((day)=>{
+            if(moment(day.date).isSame(value,'day')){
                 listData=day.notice;     
             }
         }); 
@@ -47,7 +48,7 @@ const Table= () => {
         
         let listData=[];
         contextData.noticeList.noticeList.forEach((day)=>{
-            if(day.date.isSame(value, 'month')){
+            if(moment(day.date).isSame(value, 'month')){
                 day.notice.forEach((note)=>{
                     listData.push(note);
                 });

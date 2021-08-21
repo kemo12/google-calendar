@@ -1,6 +1,8 @@
 import { Badge, Input, Select } from 'antd';
 import { Option } from 'antd/lib/mentions';
 import Modal from 'antd/lib/modal/Modal';
+import axios from 'axios';
+import moment from 'moment';
 import React, { useState,useContext } from 'react';
 import calendarContext from '../Context/Context';
 
@@ -8,8 +10,24 @@ const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
     const [title,setTitle]=useState("");
     const [color,setColor]=useState("yellow");
     const contextData = useContext(calendarContext);
-
-  
+    // eslint-disable-next-line no-undef
+    const API_KEY = process.env.REACT_APP_CALENDAR_API_KEY;
+    // eslint-disable-next-line no-unused-vars
+    const id=localStorage.getItem("id");
+    const addNotice=(noticeListCopy)=>{
+        
+        let id=localStorage.getItem("id");
+        axios.put(`${API_KEY}noticelist/${id}`,
+            {
+                
+                "noticeList":noticeListCopy
+            }
+        )
+            .then(res => {
+                console.log(res.data.noticeList);
+            });
+            
+    };
     const handlModaleOk = () => {
         
         setIsModalVisible(false);
@@ -18,7 +36,7 @@ const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
             let exsistDayIndex=0;
             let exsistDay=false;
             noticeListCopy.forEach((day,key)=>{
-                if(day.date.isSame(noticeDayDate,'day')){ 
+                if(moment(day.date).isSame(noticeDayDate,'day')){ 
                     exsistDay=true;
                     exsistDayIndex=key;
                     return;
@@ -27,18 +45,21 @@ const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
             });
             if(!exsistDay){      
                 let notice= {
-                    date:noticeDayDate,
+                    date:noticeDayDate.format('MM/DD/YYYY'),
                     notice:[
                         { color: color, content: title }
                     ]
                 };
                 noticeListCopy.push(notice);
-                contextData.setNoticeList.setNoticeList(noticeListCopy);
+                
+                
             }else{
-          
+                
                 let notice={ color: color, content: title };
                 noticeListCopy[exsistDayIndex].notice.push(notice);
             }
+            contextData.setNoticeList.setNoticeList(noticeListCopy);
+            addNotice(noticeListCopy);
       
         } 
         setTitle("");

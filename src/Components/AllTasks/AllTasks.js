@@ -40,7 +40,7 @@ const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
                 let noticeData={
                     key:key,
                     Notice:dayNotices.content,
-                    Date:day.date.format("DD-MM-YYYY")
+                    Date:day.date
                 };
                 note.push(noticeData);
                 key++;

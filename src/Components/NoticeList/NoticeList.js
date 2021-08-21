@@ -4,10 +4,13 @@ import { useDrop } from 'react-dnd';
 import calendarContext from '../Context/Context';
 import { ItemTypes } from '../Table/DragType';
 import Notice from '../Notice/Notice';
+import moment from 'moment';
+import axios from 'axios';
 
 const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellDate}) => {
     const contextData = useContext(calendarContext);
-
+    // eslint-disable-next-line no-undef
+    const API_KEY = process.env.REACT_APP_CALENDAR_API_KEY;
     const [{isOver},drop]=useDrop({
         accept: ItemTypes.notice,
         // eslint-disable-next-line no-unused-vars
@@ -16,14 +19,25 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
             isOver:!!monitor.isOver(),
         })
     });
-    
+    const updateApiData=(noticeListCopy)=>{
+        
+        let id=localStorage.getItem("id");
+        axios.put(`${API_KEY}noticelist/${id}`,
+            {   
+                "noticeList":noticeListCopy
+            }
+        )
+            .then(res => {
+                console.log(res.data.noticeList);
+            });
+    };
     const moveNotice=(item)=>{
         let noticeListCopy=[...contextData.noticeList.noticeList];
         let exsistDayIndex=0;
         let exsistDay=false;
 
         noticeListCopy.forEach((day,key)=>{
-            if(day.date.isSame(dayCellDate,'day')){ 
+            if(moment(day.date).isSame(dayCellDate,'day')){ 
                 exsistDay=true;
                 exsistDayIndex=key;
                 return;
@@ -31,7 +45,7 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
         });
         if(!exsistDay){    
             let notice= {
-                date:dayCellDate,
+                date:dayCellDate.format('MM/DD/YYYY'),
                 notice:[
                     { color: item.content.color, content: item.content.content }
                 ]
@@ -45,7 +59,7 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
 
         //delete the notice from the last position
         noticeListCopy.forEach((day)=>{
-            if(day.date.isSame(item.date,'day')){
+            if(moment(day.date).isSame(item.date,'day')){
                 day.notice.forEach((notice,i)=>{
                     if(item.index===i){
                         day.notice.splice(i, 1);
@@ -55,6 +69,7 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
             }
 
         });
+        updateApiData(noticeListCopy);
 
     };
 
