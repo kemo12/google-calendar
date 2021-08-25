@@ -76,25 +76,25 @@ const List = (args) => {
     };
  
     return  (
-        <>
+        
      
-            <ThingsProvider 
-                value={{
-                    Date:{Date},
-                    setDate:{setDate},
-                    noticeList:{noticeList},
-                    setNoticeList:{setNoticeList}
-                }}>
-                <DndProvider backend={HTML5Backend}> 
-                    <NoticeList  showAddNoticeModal={setIsModalVisible} selectdayOnClick={selectdayOnClick} {...args} />
-                    <AddNoticeModal 
-                        noticeDayDate={Date}
-                        isModalVisible={isModalVisible} 
-                        setIsModalVisible={setIsModalVisible} 
-                    /> 
-                </DndProvider>
-            </ThingsProvider>
-        </>
+        <ThingsProvider 
+            value={{
+                Date:{Date},
+                setDate:{setDate},
+                noticeList:{noticeList},
+                setNoticeList:{setNoticeList}
+            }}>
+            <DndProvider backend={HTML5Backend}> 
+                <NoticeList  showAddNoticeModal={setIsModalVisible} selectdayOnClick={selectdayOnClick} {...args} />
+                <AddNoticeModal 
+                    noticeDayDate={Date}
+                    isModalVisible={isModalVisible} 
+                    setIsModalVisible={setIsModalVisible} 
+                /> 
+            </DndProvider>
+        </ThingsProvider>
+        
     );
 };
 

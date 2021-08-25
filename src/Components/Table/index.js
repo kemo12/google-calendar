@@ -18,7 +18,7 @@ const Table= () => {
     const getListData=(value)=> {
         let listData=[];
         contextData.noticeList.noticeList?.forEach((day)=>{
-            if(moment(day.date).isSame(value,'day')){
+            if(moment(day.date, "MM-DD-YYYY").isSame(value,'day')){
                 listData=day.notice;     
             }
         }); 
@@ -31,7 +31,7 @@ const Table= () => {
     };
 
     const  dateCellRender=(value)=>{
-        const listData = useMemo(() => getListData(value), [contextData.noticeList.noticeList]);
+        const listData = useMemo(() => getListData(value));
         
         return (
             <NoticeList  
@@ -48,7 +48,7 @@ const Table= () => {
         
         let listData=[];
         contextData.noticeList.noticeList.forEach((day)=>{
-            if(moment(day.date).isSame(value, 'month')){
+            if(moment(day.date, "MM-DD-YYYY").isSame(value, 'month')){
                 day.notice.forEach((note)=>{
                     listData.push(note);
                 });

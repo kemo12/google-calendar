@@ -30,20 +30,20 @@ export const Nav= () => {
     const [Date,setDate]=useState(moment());
     const [noticeList,setNoticeList]=useState([]);
     return  (
-        <>
+        
 
-            <Router history={history}>
-                <ThingsProvider 
-                    value={{
-                        Date:{Date},
-                        setDate:{setDate},
-                        noticeList:{noticeList},
-                        setNoticeList:{setNoticeList}
-                    }}>
-                    <NavBar  />
-                </ThingsProvider>
-            </Router>
-        </>
+        <Router history={history}>
+            <ThingsProvider 
+                value={{
+                    Date:{Date},
+                    setDate:{setDate},
+                    noticeList:{noticeList},
+                    setNoticeList:{setNoticeList}
+                }}>
+                <NavBar  />
+            </ThingsProvider>
+        </Router>
+        
     );
 };
 

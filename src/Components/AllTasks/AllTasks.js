@@ -10,12 +10,12 @@ const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
     const contextData = useContext(calendarContext);
 
     const handleOk = () => {
-        setIsModalVisible(false);
+        setIsModalVisible(!isModalVisible);
         history.push('/');
 
     };
     const handleCancel = () => {
-        setIsModalVisible(false);
+        setIsModalVisible(!isModalVisible);
         history.push('/');
     };
 
@@ -26,7 +26,7 @@ const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
             key: 'Notice',
         },
         {
-            title: 'Date',
+            title: 'Date(MM/DD/YYYY)',
             dataIndex: 'Date',
             key: 'Date',
         }    
@@ -34,16 +34,14 @@ const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
 
     const getData=(noticeList)=>{
         let note=[];
-        noticeList?.forEach((day)=>{
-            let key=1;
-            day.notice.forEach((dayNotices)=>{
+        noticeList?.forEach((day,x)=>{
+            day.notice.forEach((dayNotices,i)=>{
                 let noticeData={
-                    key:key,
+                    key:i+""+x,
                     Notice:dayNotices.content,
                     Date:day.date
                 };
                 note.push(noticeData);
-                key++;
             });
   
         });
@@ -54,21 +52,21 @@ const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
     
 
     return (
-        <>
-            <Modal 
-                title="All Notices" 
-                visible={isModalVisible}
-                onOk={handleOk} 
-                onCancel={handleCancel}
-                destroyOnClose={true}
-            >
-                <Table 
-                    columns={columns}
-                    dataSource={data}  
-                    pagination={{ pageSize: 4 }}
-                />
-            </Modal>
-        </>
+        
+        <Modal 
+            title="All Notices" 
+            visible={isModalVisible}
+            onOk={handleOk} 
+            onCancel={handleCancel}
+            destroyOnClose={true}
+        >
+            <Table 
+                columns={columns}
+                dataSource={data}  
+                pagination={{ pageSize: 4 }}
+            />
+        </Modal>
+        
     );
 };
 

@@ -1,28 +1,16 @@
 import { Badge, Input } from 'antd';
-import axios from 'axios';
 import moment from 'moment';
 import React, { useContext,useState } from 'react';
 import { useDrag } from 'react-dnd';
+import { updateApiData } from '../Api/Api';
 import calendarContext from '../Context/Context';
 import { ItemTypes } from '../Table/DragType';
 
 const Notice = ({noteData,NoticeKey,selectdayOnClick,dayCellDate}) => {
     const [isUpdate,setIsUpdate]=useState(false);
     const contextData = useContext(calendarContext);
-    // eslint-disable-next-line no-undef
-    const API_KEY = process.env.REACT_APP_CALENDAR_API_KEY;
-    const updateApiData=(noticeListCopy)=>{
-        
-        let id=localStorage.getItem("id");
-        axios.put(`${API_KEY}noticelist/${id}`,
-            {   
-                "noticeList":noticeListCopy
-            }
-        )
-            .then(res => {
-                console.log(res.data.noticeList);
-            });
-    };
+
+
     const draggedDetails={
         date:dayCellDate,
         index:NoticeKey,
@@ -42,7 +30,7 @@ const Notice = ({noteData,NoticeKey,selectdayOnClick,dayCellDate}) => {
 
         let noticeListCopy=[...contextData.noticeList.noticeList];
         noticeListCopy.forEach((day)=>{
-            if(moment(day.date).isSame(contextData.Date.Date,'day')){
+            if(moment(day.date, "MM-DD-YYYY").isSame(contextData.Date.Date,'day')){
                 day.notice.forEach((notice,i)=>{
                     if(parseInt(e.target.id)===i){
                         day.notice.splice(i, 1);
@@ -57,7 +45,7 @@ const Notice = ({noteData,NoticeKey,selectdayOnClick,dayCellDate}) => {
     const handleUpdateNotice=(e)=>{
         let noticeListCopy=[...contextData.noticeList.noticeList];
         noticeListCopy.forEach((day)=>{
-            if(moment(day.date).isSame(contextData.Date.Date,'day')){
+            if(moment(day.date,"MM-DD-YYYY").isSame(contextData.Date.Date,'day')){
                 day.notice.forEach((notice,i)=>{
                     if(parseInt(NoticeKey)===i){
                         notice.content=e.target.value;

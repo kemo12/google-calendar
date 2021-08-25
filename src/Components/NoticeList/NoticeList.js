@@ -26,10 +26,8 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
             {   
                 "noticeList":noticeListCopy
             }
-        )
-            .then(res => {
-                console.log(res.data.noticeList);
-            });
+        );
+           
     };
     const moveNotice= async(item)=>{
         let noticeListCopy=[...contextData.noticeList.noticeList];
@@ -37,7 +35,7 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
         let exsistDay=false;
 
         noticeListCopy.forEach((day,key)=>{
-            if(moment(day.date).isSame(dayCellDate,'day')){ 
+            if(moment(day.date, "MM-DD-YYYY").isSame(dayCellDate,'day')){ 
                 exsistDay=true;
                 exsistDayIndex=key;
                 return;
@@ -59,7 +57,7 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
 
         //delete the notice from the last position
         noticeListCopy.forEach((day)=>{
-            if(moment(day.date).isSame(item.date,'day')){
+            if(moment(day.date, "MM-DD-YYYY").isSame(item.date,'day')){
                 day.notice.forEach((notice,i)=>{
                     if(item.index===i){
                         day.notice.splice(i, 1);

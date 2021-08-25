@@ -7,11 +7,11 @@ import { BrowserRouter as Router  } from 'react-router-dom/cjs/react-router-dom.
 import history from './Components/react-router/history';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Router history={history}>
-            <App />
-        </Router>
-    </React.StrictMode>,
+
+    <Router history={history}>
+        <App />
+    </Router>
+    ,
     document.getElementById('root')
 );
 

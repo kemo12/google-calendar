@@ -50,21 +50,21 @@ const List = (args) => {
     };
  
     return  (
-        <>
+        
      
-            <ThingsProvider 
-                value={{
-                    Date:{Date},
-                    setDate:{setDate},
-                    noticeList:{noticeList},
-                    setNoticeList:{setNoticeList}
-                }}>
-                <DndProvider backend={HTML5Backend}> 
-                    <Notice  selectdayOnClick={selectdayOnClick} {...args} />
+        <ThingsProvider 
+            value={{
+                Date:{Date},
+                setDate:{setDate},
+                noticeList:{noticeList},
+                setNoticeList:{setNoticeList}
+            }}>
+            <DndProvider backend={HTML5Backend}> 
+                <Notice  selectdayOnClick={selectdayOnClick} {...args} />
                     
-                </DndProvider>
-            </ThingsProvider>
-        </>
+            </DndProvider>
+        </ThingsProvider>
+        
     );
 };
 

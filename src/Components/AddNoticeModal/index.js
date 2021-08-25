@@ -1,33 +1,17 @@
 import { Badge, Input, Select } from 'antd';
-import { Option } from 'antd/lib/mentions';
 import Modal from 'antd/lib/modal/Modal';
-import axios from 'axios';
 import moment from 'moment';
 import React, { useState,useContext } from 'react';
+import { addNotice } from '../Api/Api';
 import calendarContext from '../Context/Context';
 
 const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
     const [title,setTitle]=useState("");
     const [color,setColor]=useState("yellow");
     const contextData = useContext(calendarContext);
-    // eslint-disable-next-line no-undef
-    const API_KEY = process.env.REACT_APP_CALENDAR_API_KEY;
     // eslint-disable-next-line no-unused-vars
     const id=localStorage.getItem("id");
-    const addNotice=(noticeListCopy)=>{
-        
-        let id=localStorage.getItem("id");
-        axios.put(`${API_KEY}noticelist/${id}`,
-            {
-                
-                "noticeList":noticeListCopy
-            }
-        )
-            .then(res => {
-                console.log(res.data.noticeList);
-            });
-            
-    };
+
     const handlModaleOk = () => {
         
         setIsModalVisible(false);
@@ -36,7 +20,7 @@ const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
             let exsistDayIndex=0;
             let exsistDay=false;
             noticeListCopy.forEach((day,key)=>{
-                if(moment(day.date).isSame(noticeDayDate,'day')){ 
+                if(moment(day.date, "MM-DD-YYYY").isSame(noticeDayDate,'day')){ 
                     exsistDay=true;
                     exsistDayIndex=key;
                     return;
@@ -77,30 +61,30 @@ const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
     }
 
     return (
-        <>
-            <Modal  title="Add Notice" visible={isModalVisible} onOk={handlModaleOk} onCancel={handleModalCancel}>
-                <div >
-                    <label>Title     </label>
-                    <Input style={{width:'400px',marginLeft:"8px"}} placeholder="Title" value={title}onChange={(e)=>setTitle(e.target.value)} />
-                </div>
-                <label>Color      </label>
-                <Select
+        
+        <Modal  title="Add Notice" visible={isModalVisible} onOk={handlModaleOk} onCancel={handleModalCancel}>
+            <div >
+                <label>Title     </label>
+                <Input style={{width:'400px',marginLeft:"8px"}} placeholder="Title" value={title}onChange={(e)=>setTitle(e.target.value)} />
+            </div>
+            <label>Color      </label>
+            <Select
             
-                    style={{ width: 200 }}
-                    placeholder="select color"
-                    onChange={onSelectChange}
-                    preserve={false}
-                    defaultValue="yellow"
-                    value={color}
-                >
-          
-                    <Option value="yellow"><Badge status={"yellow"} className="cellEvent"/>yellow</Option>
-                    <Option value="green"><Badge status={"green"} className="cellEvent"/>green</Option>
-                    <Option value="red"><Badge status={"red"} className="cellEvent"/>red</Option>
-                </Select>
+                style={{ width: 200 }}
+                placeholder="select color"
+                onChange={onSelectChange}
+                preserve={"false"}
+                defaultValue="yellow"
+                value={color}
+            >
+                    
+                <Select.Option value="yellow"><Badge status={"yellow"} className="cellEvent"/>yellow</Select.Option>
+                <Select.Option value="green"><Badge status={"green"} className="cellEvent"/>green</Select.Option>
+                <Select.Option value="red"><Badge status={"red"} className="cellEvent"/>red</Select.Option>
+            </Select>
 
-            </Modal>
-        </>
+        </Modal>
+        
     );
 };
 

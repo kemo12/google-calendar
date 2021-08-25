@@ -31,21 +31,18 @@ export  const LivePreview = () => {
     const [Date,setDate]=useState(moment());
     const [noticeList,setNoticeList]=useState([]);
     return  (
-        <>
+        <ThingsProvider 
+            value={{
+                Date:{Date},
+                setDate:{setDate},
+                noticeList:{noticeList},
+                setNoticeList:{setNoticeList}
+            }}>
+            <DndProvider backend={HTML5Backend}> 
 
-            <ThingsProvider 
-                value={{
-                    Date:{Date},
-                    setDate:{setDate},
-                    noticeList:{noticeList},
-                    setNoticeList:{setNoticeList}
-                }}>
-                <DndProvider backend={HTML5Backend}> 
-
-                    <Table />
-                </DndProvider>
-            </ThingsProvider>
-        </>
+                <Table />
+            </DndProvider>
+        </ThingsProvider>    
     );
 };
 
