@@ -1,27 +1,27 @@
 import { PlusOutlined } from '@ant-design/icons';
-import React,{useContext} from 'react';
+import React,{ useContext } from 'react';
 import { useDrop } from 'react-dnd';
-import calendarContext from '../Context/Context';
+import calendarContext from '../Context/CalendarContext';
 import { ItemTypes } from '../Table/DragType';
 import Notice from '../Notice/Notice';
 import moment from 'moment';
 import axios from 'axios';
 
-const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellDate}) => {
+const NoticeList = ({ showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellDate }) => {
     const contextData = useContext(calendarContext);
     // eslint-disable-next-line no-undef
     const API_KEY = process.env.REACT_APP_CALENDAR_API_KEY;
-    const [{isOver},drop]=useDrop({
+    const [{ isOver },drop] = useDrop({
         accept: ItemTypes.notice,
         // eslint-disable-next-line no-unused-vars
-        drop:(item,monitor)=>moveNotice(item),
-        collect:monitor =>({
+        drop:(item,monitor) => moveNotice(item),
+        collect:monitor => ({
             isOver:!!monitor.isOver(),
         })
     });
-    const updateApiData=(noticeListCopy)=>{
+    const updateApiData = (noticeListCopy) => {
         
-        let id=localStorage.getItem("id");
+        let id = localStorage.getItem("id");
         axios.put(`${API_KEY}noticelist/${id}`,
             {   
                 "noticeList":noticeListCopy
@@ -29,37 +29,37 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
         );
            
     };
-    const moveNotice= async(item)=>{
-        let noticeListCopy=[...contextData.noticeList.noticeList];
-        let exsistDayIndex=0;
-        let exsistDay=false;
+    const moveNotice = async(item) => {
+        let noticeListCopy = [...contextData.noticeList.noticeList];
+        let exsistDayIndex = 0;
+        let exsistDay = false;
 
-        noticeListCopy.forEach((day,key)=>{
-            if(moment(day.date, "MM-DD-YYYY").isSame(dayCellDate,'day')){ 
-                exsistDay=true;
-                exsistDayIndex=key;
+        noticeListCopy.forEach((day,key) => {
+            if (moment(day.date, "MM-DD-YYYY").isSame(dayCellDate,'day')){ 
+                exsistDay = true;
+                exsistDayIndex = key;
                 return;
             }
         });
-        if(!exsistDay){    
-            let notice= {
+        if (!exsistDay){    
+            let notice = {
                 date:dayCellDate.format('MM/DD/YYYY'),
                 notice:[
                     { color: item.content.color, content: item.content.content }
                 ]
             };
             noticeListCopy.push(notice);
-        }else{
+        } else {
         
-            let notice={ color: item.content.color, content: item.content.content  };
+            let notice = { color: item.content.color, content: item.content.content  };
             noticeListCopy[exsistDayIndex].notice.push(notice);
         }
 
         //delete the notice from the last position
-        noticeListCopy.forEach((day)=>{
-            if(moment(day.date, "MM-DD-YYYY").isSame(item.date,'day')){
-                day.notice.forEach((notice,i)=>{
-                    if(item.index===i){
+        noticeListCopy.forEach((day) => {
+            if (moment(day.date, "MM-DD-YYYY").isSame(item.date,'day')){
+                day.notice.forEach((notice,i) => {
+                    if (item.index === i){
                         day.notice.splice(i, 1);
                         contextData.setNoticeList.setNoticeList(noticeListCopy); 
                     }
@@ -77,10 +77,10 @@ const NoticeList = ({showAddNoticeModal,dayCellNotices,selectdayOnClick,dayCellD
                 className="events" 
                 key={dayCellDate}  
                 ref={drop} 
-                style={isOver? ({ backgroundColor:"#bbe5f7"}) : ({})}
+                style={isOver ? ({ backgroundColor:"#bbe5f7" }) : ({})}
             >
                 {dayCellNotices?.map((note,index) => {
-                    return(
+                    return (
                         <div key={index} >
                             <Notice  
                                 selectdayOnClick={selectdayOnClick}

@@ -3,32 +3,32 @@ import Modal from 'antd/lib/modal/Modal';
 import moment from 'moment';
 import React, { useState,useContext } from 'react';
 import { addNotice } from '../Api/Api';
-import calendarContext from '../Context/Context';
+import calendarContext from '../Context/CalendarContext';
 
-const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
-    const [title,setTitle]=useState("");
-    const [color,setColor]=useState("yellow");
+const AddNoticeModal = ({ noticeDayDate ,isModalVisible,setIsModalVisible }) => {
+    const [title,setTitle] = useState("");
+    const [color,setColor] = useState("yellow");
     const contextData = useContext(calendarContext);
     // eslint-disable-next-line no-unused-vars
-    const id=localStorage.getItem("id");
+    const id = localStorage.getItem("id");
 
     const handlModaleOk = () => {
         
         setIsModalVisible(false);
-        if(title!=""){
-            let noticeListCopy=[...contextData.noticeList.noticeList];
-            let exsistDayIndex=0;
-            let exsistDay=false;
-            noticeListCopy.forEach((day,key)=>{
-                if(moment(day.date, "MM-DD-YYYY").isSame(noticeDayDate,'day')){ 
-                    exsistDay=true;
-                    exsistDayIndex=key;
+        if (title != ""){
+            let noticeListCopy = [...contextData.noticeList.noticeList];
+            let exsistDayIndex = 0;
+            let exsistDay = false;
+            noticeListCopy.forEach((day,key) => {
+                if (moment(day.date, "MM-DD-YYYY").isSame(noticeDayDate,'day')){ 
+                    exsistDay = true;
+                    exsistDayIndex = key;
                     return;
                 }
 
             });
-            if(!exsistDay){      
-                let notice= {
+            if (!exsistDay){      
+                let notice = {
                     date:noticeDayDate.format('MM/DD/YYYY'),
                     notice:[
                         { color: color, content: title }
@@ -37,9 +37,9 @@ const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
                 noticeListCopy.push(notice);
                 
                 
-            }else{
+            } else {
                 
-                let notice={ color: color, content: title };
+                let notice = { color: color, content: title };
                 noticeListCopy[exsistDayIndex].notice.push(notice);
             }
             contextData.setNoticeList.setNoticeList(noticeListCopy);
@@ -65,7 +65,7 @@ const AddNoticeModal = ({noticeDayDate ,isModalVisible,setIsModalVisible}) => {
         <Modal  title="Add Notice" visible={isModalVisible} onOk={handlModaleOk} onCancel={handleModalCancel}>
             <div >
                 <label>Title     </label>
-                <Input style={{width:'400px',marginLeft:"8px"}} placeholder="Title" value={title}onChange={(e)=>setTitle(e.target.value)} />
+                <Input style={{ width:'400px',marginLeft:"8px" }} placeholder="Title" value={title}onChange={(e) => setTitle(e.target.value)} />
             </div>
             <label>Color      </label>
             <Select

@@ -1,25 +1,25 @@
-import React,{useContext,useState} from 'react';
+import React,{ useContext,useState } from 'react';
 import moment from 'moment';
-import {Button} from 'antd';
-import {LeftOutlined,RightOutlined} from "@ant-design/icons";
-import calendarContext from '../Context/Context';
+import { Button } from 'antd';
+import { LeftOutlined,RightOutlined } from "@ant-design/icons";
+import calendarContext from '../Context/CalendarContext';
 import "./Navbar.css";
 import AllTasksModal from '../AllTasks/AllTasks';
 import { Link,Route,Switch } from 'react-router-dom';
 
-const NavBar =()=> {
+const NavBar = () => {
     const [isModalVisible, setIsModalVisible] = useState(true);
 
     const contextData = useContext(calendarContext);
-    const setToday=()=>{
+    const setToday = () => {
         contextData.setDate.setDate(moment());
     };
-    const nextMonth=()=>{
+    const nextMonth = () => {
         contextData.setDate.setDate(contextData.Date.Date.clone().add(1, 'months'));
         
     };
 
-    const prevMonth=()=>{
+    const prevMonth = () => {
         contextData.setDate.setDate(contextData.Date.Date.clone().subtract(1, 'months'));
         
     };

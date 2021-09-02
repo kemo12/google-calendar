@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useState } from 'react';
-import { ThingsProvider } from '../Context/Context';
+import { ThingsProvider } from '../Context/CalendarContext';
 import Table from './index';
 import 'antd/dist/antd.css';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -28,15 +28,15 @@ export default {
     
 };
 export  const LivePreview = () => {  
-    const [Date,setDate]=useState(moment());
-    const [noticeList,setNoticeList]=useState([]);
+    const [Date,setDate] = useState(moment());
+    const [noticeList,setNoticeList] = useState([]);
     return  (
         <ThingsProvider 
             value={{
-                Date:{Date},
-                setDate:{setDate},
-                noticeList:{noticeList},
-                setNoticeList:{setNoticeList}
+                Date:{ Date },
+                setDate:{ setDate },
+                noticeList:{ noticeList },
+                setNoticeList:{ setNoticeList }
             }}>
             <DndProvider backend={HTML5Backend}> 
 

@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 import {  Table } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
-import React,{useContext} from 'react';
-import calendarContext from '../Context/Context';
+import React,{ useContext } from 'react';
+import calendarContext from '../Context/CalendarContext';
 import history from '../react-router/history';
 
-const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
+const AllTasksModal = ({ isModalVisible,setIsModalVisible }) => {
 
     const contextData = useContext(calendarContext);
 
@@ -32,12 +32,12 @@ const AllTasksModal = ({isModalVisible,setIsModalVisible}) => {
         }    
     ];
 
-    const getData=(noticeList)=>{
-        let note=[];
-        noticeList?.forEach((day,x)=>{
-            day.notice.forEach((dayNotices,i)=>{
-                let noticeData={
-                    key:i+""+x,
+    const getData = (noticeList) => {
+        let note = [];
+        noticeList?.forEach((day,x) => {
+            day.notice.forEach((dayNotices,i) => {
+                let noticeData = {
+                    key:i + "" + x,
                     Notice:dayNotices.content,
                     Date:day.date
                 };

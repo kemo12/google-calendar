@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import moment from 'moment';
 import React, { useState } from 'react';
-import { ThingsProvider } from '../Context/Context';
+import { ThingsProvider } from '../Context/CalendarContext';
 import NoticeList from './NoticeList';
 import 'antd/dist/antd.css';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -56,8 +56,8 @@ export default {
             name: 'dayCellNotices',
             type: { name: 'array', required: true },
             defaultValue: [
-                {color:"yellow",content:"hi im yellow"},
-                {color:"red",content:"hi im red"}
+                { color:"yellow",content:"hi im yellow" },
+                { color:"red",content:"hi im red" }
             ],
             description: 'It is an array containing all notes for a specific day',
         },
@@ -67,11 +67,11 @@ export default {
 
 };
 const List = (args) => {  
-    const [Date,setDate]=useState(moment());
-    const [noticeList,setNoticeList]=useState([]);
+    const [Date,setDate] = useState(moment());
+    const [noticeList,setNoticeList] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     
-    const selectdayOnClick=(date)=>{
+    const selectdayOnClick = (date) => {
         setDate(date);
     };
  
@@ -80,10 +80,10 @@ const List = (args) => {
      
         <ThingsProvider 
             value={{
-                Date:{Date},
-                setDate:{setDate},
-                noticeList:{noticeList},
-                setNoticeList:{setNoticeList}
+                Date:{ Date },
+                setDate:{ setDate },
+                noticeList:{ noticeList },
+                setNoticeList:{ setNoticeList }
             }}>
             <DndProvider backend={HTML5Backend}> 
                 <NoticeList  showAddNoticeModal={setIsModalVisible} selectdayOnClick={selectdayOnClick} {...args} />
@@ -101,10 +101,10 @@ const List = (args) => {
 export const LivePreview = List.bind({});
 
 
-LivePreview.args={
+LivePreview.args = {
     dayCellNotices:[
-        {color:"yellow",content:"hi im yellow"},
-        {color:"red",content:"hi im red"}
+        { color:"yellow",content:"hi im yellow" },
+        { color:"red",content:"hi im red" }
     ],
 
 

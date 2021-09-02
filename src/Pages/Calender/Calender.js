@@ -1,7 +1,7 @@
-import React,{useState,useEffect} from "react";
+import React,{ useState,useEffect } from "react";
 import NavBar from "../../Components/Navbar";
 import Table from "../../Components/Table";
-import {ThingsProvider} from '../../Components/Context/Context';
+import { ThingsProvider } from '../../Components/Context/CalendarContext';
 import 'antd/dist/antd.css';
 import moment from "moment";
 import { DndProvider } from "react-dnd";
@@ -9,15 +9,15 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Spin } from 'antd';
 import { createUserNoticeList, gitUserNoticeList } from "../../Components/Api/Api";
 const Calender = () => {
-    const [Date,setDate]=useState(moment());
-    const [noticeList,setNoticeList]=useState([]);
-    const [isLoading,setIsLoading]=useState(true);
+    const [Date,setDate] = useState(moment());
+    const [noticeList,setNoticeList] = useState([]);
+    const [isLoading,setIsLoading] = useState(true);
 
-    const apiConnection= async ()=>{
-        const id=localStorage.getItem("id"); 
-        if(id!=null){
+    const apiConnection = async () => {
+        const id = localStorage.getItem("id"); 
+        if (id != null){
             setNoticeList(await gitUserNoticeList(id));
-        }else{
+        } else {
             localStorage.setItem("id",await createUserNoticeList(id)); 
         }
         setIsLoading(false);
@@ -29,13 +29,13 @@ const Calender = () => {
     return (
         <ThingsProvider 
             value={{
-                Date:{Date},
-                setDate:{setDate},
-                noticeList:{noticeList},
-                setNoticeList:{setNoticeList}
+                Date:{ Date },
+                setDate:{ setDate },
+                noticeList:{ noticeList },
+                setNoticeList:{ setNoticeList }
             }}>
             <DndProvider backend={HTML5Backend}> 
-                {isLoading?
+                {isLoading ?
                     <div className="loading">
                         <Spin size="large"/>
                     </div>

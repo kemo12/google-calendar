@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useState } from 'react';
-import { ThingsProvider } from '../Context/Context';
+import { ThingsProvider } from '../Context/CalendarContext';
 import 'antd/dist/antd.css';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
@@ -26,7 +26,7 @@ export default {
         noteData:{
             name: 'noteData',
             type: { name: 'noteData', required: true },
-            defaultValue: {color:'red',content:"hi im red"},
+            defaultValue: { color:'red',content:"hi im red" },
             description: 'It is an array containing note for a specific day',
         },
         selectdayOnClick:{
@@ -42,10 +42,10 @@ export default {
 };
 
 const List = (args) => {  
-    const [Date,setDate]=useState(moment());
-    const [noticeList,setNoticeList]=useState([]);
+    const [Date,setDate] = useState(moment());
+    const [noticeList,setNoticeList] = useState([]);
     
-    const selectdayOnClick=(date)=>{
+    const selectdayOnClick = (date) => {
         setDate(date);
     };
  
@@ -54,10 +54,10 @@ const List = (args) => {
      
         <ThingsProvider 
             value={{
-                Date:{Date},
-                setDate:{setDate},
-                noticeList:{noticeList},
-                setNoticeList:{setNoticeList}
+                Date:{ Date },
+                setDate:{ setDate },
+                noticeList:{ noticeList },
+                setNoticeList:{ setNoticeList }
             }}>
             <DndProvider backend={HTML5Backend}> 
                 <Notice  selectdayOnClick={selectdayOnClick} {...args} />
@@ -71,8 +71,8 @@ const List = (args) => {
 export const LivePreview = List.bind({});
 
 
-LivePreview.args={
-    noteData:{color:'red',content:"hi im red"},
+LivePreview.args = {
+    noteData:{ color:'red',content:"hi im red" },
 
 
 

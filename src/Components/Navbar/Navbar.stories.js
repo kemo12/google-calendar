@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useState } from 'react';
 import { Router } from 'react-router-dom/cjs/react-router-dom.min';
-import { ThingsProvider } from '../Context/Context';
+import { ThingsProvider } from '../Context/CalendarContext';
 import history from '../react-router/history';
 import NavBar from './index';
 import 'antd/dist/antd.css';
@@ -26,19 +26,19 @@ export default {
     },
 
 };
-export const Nav= () => {  
-    const [Date,setDate]=useState(moment());
-    const [noticeList,setNoticeList]=useState([]);
+export const Nav = () => {  
+    const [Date,setDate] = useState(moment());
+    const [noticeList,setNoticeList] = useState([]);
     return  (
         
 
         <Router history={history}>
             <ThingsProvider 
                 value={{
-                    Date:{Date},
-                    setDate:{setDate},
-                    noticeList:{noticeList},
-                    setNoticeList:{setNoticeList}
+                    Date:{ Date },
+                    setDate:{ setDate },
+                    noticeList:{ noticeList },
+                    setNoticeList:{ setNoticeList }
                 }}>
                 <NavBar  />
             </ThingsProvider>

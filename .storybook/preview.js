@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThingsProvider } from '../src/Components/Context/Context';
+import { ThingsProvider } from '../src/Components/Context/CalendarContext';
 export const parameters = {
   actions: { argTypesRegex:"^on[A-Z].*"},
   controls: {
